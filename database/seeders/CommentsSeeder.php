@@ -20,7 +20,7 @@ class CommentsSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         $posts = DB::table('posts')->select('id')->get();
-        $authors = DB::table('authors')->select('id')->get();
+        $authors = DB::table('users')->select('id')->get();
 
         $mod = rand(2, 3);
         for ($i = 0; $i < POSTS_COUNT; $i++) {

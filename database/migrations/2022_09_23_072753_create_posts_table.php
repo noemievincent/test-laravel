@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamp('published_at');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('author_id')->references('id')->on('authors');
+            $table->foreign('author_id')->references('id')->on('users');
         });
     }
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 define('AUTHORS_COUNT', rand(2, 8));
 
-class AuthorsSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,7 +22,7 @@ class AuthorsSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         for ($i = 0; $i < AUTHORS_COUNT; $i++) {
-            DB::table('authors')->insert([
+            DB::table('users')->insert([
                 'id' => Uuid::uuid4(),
                 'name' => $name = $i > 0 ? strtolower($faker->name()) : 'Noémie Vincent',
                 'slug' => Str::of($name)->slug('-'),

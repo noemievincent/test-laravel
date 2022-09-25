@@ -22,7 +22,7 @@ class PostsSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        $authors = DB::table('authors')->select('id')->get();
+        $authors = DB::table('users')->select('id')->get();
 
         for ($i = 0; $i < POSTS_COUNT; $i++) {
             $creation_date = Carbon::create($faker->dateTimeBetween('-3 years', 'now')->format('Y-m-d H:i:s'));
