@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * App\Models\Api
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Api newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Api newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Api query()
+ * @mixin \Eloquent
+ */
+
 class Api extends Model
 {
     use HasFactory;
