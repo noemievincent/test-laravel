@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Ramsey\Uuid\Uuid;
 
 class CommentsSeeder extends Seeder
 {
@@ -17,26 +16,23 @@ class CommentsSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create();
-
-        $posts = DB::table('posts')->select('id')->get();
-        $authors = DB::table('users')->select('id')->get();
-
+        $faker = Factory::create();
+        $posts_ids = DB::table('posts')->pluck('id');
+        $users_ids = DB::table('users')->pluck('id');
         $mod = rand(2, 3);
-        for ($i = 0; $i < POSTS_COUNT; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             if ($i % $mod) {
                 $comments_count = rand(1, 7);
-                $post_id = $posts[$i]->id;
-
+                $post_id = $posts_ids[$i];
                 for ($j = 0; $j < $comments_count; $j++) {
-                    DB::table('comments')->insert([
-                        'id' => Uuid::uuid4(),
-                        'author_id' => $authors[rand(0, AUTHORS_COUNT - 1)]->id,
-                        'post_id' => $post_id,
-                        'body' => $faker->text
-                    ]);
+                    $user_id = $users_ids[rand(0, 9)]; //Knowing there are 10 users
+                    $body = $faker->text;
+                    DB::table('comments')->insert(
+                        compact('body', 'user_id', 'post_id')
+                    );
                 }
             }
         }
+
     }
 }

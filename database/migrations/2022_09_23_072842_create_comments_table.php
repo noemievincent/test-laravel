@@ -14,14 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
             $table->text('body');
-            $table->string('author_id');
-            $table->string('post_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('author_id')->references('id')->on('users');
-            $table->foreign('post_id')->references('id')->on('posts');
         });
     }
 

@@ -12,12 +12,12 @@ class Api extends Model
 
     public function getApi($token)
     {
-        return DB::table('posts')->join('users', 'author_id', '=', 'users.id')->where('users.tokens', $token)->get();
+        return DB::table('posts')->join('users', 'user_id', '=', 'users.id')->where('users.tokens', $token)->get();
     }
 
     public function api_add_author($id)
     {
-        return DB::table('users')->join('posts', 'author_id', '=', 'users.id')->where('posts.id', $id)->get();
+        return DB::table('users')->join('posts', 'user_id', '=', 'users.id')->where('posts.id', $id)->get();
     }
 
     public function api_add_comment($id)

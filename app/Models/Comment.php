@@ -22,7 +22,7 @@ class Comment extends Model
 
     public function get_by_author($id)
     {
-        return DB::table('comments')->join('users', 'author_id', '=', 'users.id')->where('author_id', $id)->select('comments.*')->get();
+        return DB::table('comments')->join('users', 'user_id', '=', 'users.id')->where('user_id', $id)->select('comments.*')->get();
     }
 
 //    public function avg_by_ratings($slug)

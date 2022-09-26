@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UsersSeeder::class);
-        $this->call(CategoriesSeeder::class);
+        $this->call(UserSeeder::class);
         $this->call(PostsSeeder::class);
         $this->call(CommentsSeeder::class);
-        $this->call(CategoryPostSeeder::class);
+        $this->call(CategoriesSeeder::class);
+        $this->call(CategoriePostRelationshipSeeder::class);
     }
 }
