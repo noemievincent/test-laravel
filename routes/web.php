@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\AsideController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostsByAuthorsController;
+use App\Http\Controllers\PostsByCategoriesController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -22,13 +26,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('posts', [PostController::class, 'index']);
 
-Route::get('posts/{post}', function (Post $post) {
-    return $post->load('comments', 'categories');
-//    return $post->categories;
-});
+Route::get('authors/{author:slug}/posts', [PostsByAuthorsController::class, 'index']);
+
+Route::get('categories/{category:slug}/posts', [PostsByCategoriesController::class, 'index']);
+
+Route::get('posts/{post}', [PostController::class, 'show']);
+
 
 Route::get('categories/{category}', function (Category $category) {
     return $category->load('posts');

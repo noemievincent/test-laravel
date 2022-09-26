@@ -9,22 +9,20 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 
-class PostController extends Controller
+class PostsByCategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return Application|Factory|View
      */
-
-    public function index(): View|Factory|Application
+    public function index(Category $category)
     {
-        $posts = Post::with('comments', 'categories', 'user')->paginate(4);
+        $category->load('posts.user');
         $asideData = $this->getAsideData();
 
-        return view('posts.index', compact('posts', 'asideData'));
+        return view('posts.index_by_category', compact('category', 'asideData'));
     }
 
     /**
@@ -54,12 +52,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id): View|Factory|Application
+    public function show($id)
     {
-        $post = Post::with('comments', 'categories', 'user')->find($id);
-        $asideData = $this->getAsideData();
-
-        return view('posts.single', compact('post', 'asideData'));
+        //
     }
 
     /**
