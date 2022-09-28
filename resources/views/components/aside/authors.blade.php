@@ -19,7 +19,7 @@
         @if(request()->has('aside-expanded'))
             <a href="{{strtok($_SERVER["REQUEST_URI"], '?')}}" class="text-blue-500 hover:underline">Reduce</a>
         @else
-            <a href="{{$_SERVER['REQUEST_URI']}}?aside-expanded=authors" class="text-blue-500 hover:underline">Expand</a>
+            <a href="{{$_SERVER['REQUEST_URI']}}?aside-expanded=authors" class="text-blue-500 hover:underline">See all authors</a>
         @endif
     </div>
 </section>
