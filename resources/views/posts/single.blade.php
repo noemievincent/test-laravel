@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
@@ -31,7 +31,7 @@
 </head>
 <body class="bg-gray-200">
 <div class="overflow-x-hidden bg-gray-100">
-    @include('partials._header')
+    <x-commons.navigation></x-commons.navigation>
     <main class="px-6 py-8">
         <div class="container flex justify-between mx-auto">
             <article class="w-full lg:w-8/12">
@@ -42,7 +42,7 @@
                     <div class="max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md flex flex-col gap-2">
                         <div class="flex items-center justify-between">
                             <div class="flex item-center justify-between">
-                                <a href="/?action=index&resource=post&author={{$post->user->slug}}"
+                                <a href="/authors/{{$post->user->slug}}/posts"
                                    class="flex items-center gap-2">
                                     <img src="{{$post->user->avatar}}"
                                          alt="{{$post->user->name}}"
@@ -57,7 +57,7 @@
                         </div>
                         <div class="flex gap-2">
                             @foreach($post->categories as $category)
-                                <a href="/?action=index&resource=post&category=<?= strtolower($category->slug) ?>"
+                                <a href="/categories/{{$category->slug}}/posts"
                                    class="px-2 py-1 font-bold text-gray-100 bg-gray-600 rounded hover:bg-gray-500"><?= ucwords($category->name) ?></a>
                             @endforeach
                         </div>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </article>
-            @include('partials._aside')
+            <x-aside></x-aside>
         </div>
     </main>
     @include('partials._footer')

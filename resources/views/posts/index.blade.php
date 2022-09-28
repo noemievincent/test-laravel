@@ -1,6 +1,5 @@
-
-    <!doctype html>
-<html lang="fr">
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
@@ -31,8 +30,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-@include('partials._header')
 <div class="overflow-x-hidden bg-gray-100">
+    <x-commons.navigation></x-commons.navigation>
     <main class="px-6 py-8">
         <div class="container flex justify-between mx-auto">
             <div class="w-full lg:w-8/12">
@@ -67,7 +66,7 @@
                                 @endforeach
                             </div>
                             <h2>
-                                <a href="/posts/{{$post->id}}"
+                                <a href="/posts/{{$post->slug}}"
                                    class="text-2xl font-bold text-gray-700 hover:underline">
                                     {{$post->title}}
                                 </a>
@@ -82,13 +81,9 @@
                         </div>
                     </article>
                 @endforeach
-                <div class="mt-8">
-                    <div class="flex">
-                        {{ $posts->links() }}
-                    </div>
-                </div>
+                <x-commons.pagination :posts="$posts"/>
             </div>
-            @include('partials._aside')
+            <x-aside></x-aside>
         </div>
     </main>
     @include('partials._footer')

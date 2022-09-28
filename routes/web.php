@@ -28,11 +28,11 @@ Route::get('/', function () {
 
 Route::get('posts', [PostController::class, 'index']);
 
-Route::get('authors/{author:slug}/posts', [PostsByAuthorsController::class, 'index']);
+Route::get('authors/{author:slug}/posts', PostsByAuthorsController::class);
 
-Route::get('categories/{category:slug}/posts', [PostsByCategoriesController::class, 'index']);
+Route::get('categories/{category:slug}/posts', PostsByCategoriesController::class);
 
-Route::get('posts/{post}', [PostController::class, 'show']);
+Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 
 Route::get('categories/{category}', function (Category $category) {

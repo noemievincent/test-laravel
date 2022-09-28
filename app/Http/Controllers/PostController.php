@@ -22,9 +22,8 @@ class PostController extends Controller
     public function index(): View|Factory|Application
     {
         $posts = Post::with('comments', 'categories', 'user')->paginate(4);
-        $asideData = $this->getAsideData();
 
-        return view('posts.index', compact('posts', 'asideData'));
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -54,12 +53,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id): View|Factory|Application
+    public function show(Post $post): View|Factory|Application
     {
-        $post = Post::with('comments', 'categories', 'user')->find($id);
-        $asideData = $this->getAsideData();
-
-        return view('posts.single', compact('post', 'asideData'));
+        return view('posts.single', compact('post'));
     }
 
     /**
@@ -94,13 +90,5 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    private function getAsideData() {
-        $users = User::all();
-        $categories = Category::all();
-        $most_recent_post = Post::with('categories', 'user')->latest('published_at')->first();
-
-        return compact('users', 'categories', 'most_recent_post');
     }
 }
