@@ -4,6 +4,7 @@ namespace App\View\Components\Aside;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\View\Component;
 
 class Categories extends Component
@@ -18,7 +19,11 @@ class Categories extends Component
      */
     public function __construct()
     {
-        $this->categories = Category::withCount('posts')->get();
+        if (request()->has('aside-expanded') && request()->has('aside-expanded') === 'categories') {
+            $this->categories = Category::withCount('posts')->get();
+        } else {
+            $this->categories = Category::withCount('posts')->limit(3)->get();
+        }
     }
 
     /**
