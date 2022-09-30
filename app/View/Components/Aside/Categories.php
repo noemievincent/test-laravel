@@ -19,10 +19,10 @@ class Categories extends Component
      */
     public function __construct()
     {
-        if (request()->has('aside-expanded') && request()->has('aside-expanded') === 'categories') {
+        if (request()->has('categories-expanded')) {
             $this->categories = Category::withCount('posts')->get();
         } else {
-            $this->categories = Category::withCount('posts')->limit(3)->get();
+            $this->categories = Category::withCount('posts')->take(3)->get();
         }
     }
 

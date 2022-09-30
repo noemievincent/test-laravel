@@ -70,7 +70,7 @@
             <x-aside></x-aside>
         </div>
     </main>
-    @include('partials._footer')
+    <x-commons.footer></x-commons.footer>
 </div>
 </body>
 </html>

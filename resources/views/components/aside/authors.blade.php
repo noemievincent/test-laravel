@@ -16,10 +16,10 @@
                 </li>
             @endforeach
         </ul>
-        @if(request()->has('aside-expanded'))
-            <a href="{{strtok($_SERVER["REQUEST_URI"], '?')}}" class="text-blue-500 hover:underline">Reduce</a>
+        @if(request()->has('authors-expanded'))
+            <a href="/posts" class="text-blue-500 hover:underline">Reduce</a>
         @else
-            <a href="{{$_SERVER['REQUEST_URI']}}?aside-expanded=authors" class="text-blue-500 hover:underline">See all authors</a>
+            <a href="/posts?authors-expanded" class="text-blue-500 hover:underline">See all authors</a>
         @endif
     </div>
 </section>

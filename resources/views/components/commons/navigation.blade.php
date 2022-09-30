@@ -8,14 +8,18 @@
             <h2 class="sr-only">Main Navigation</h2>
             <a href="/posts"
                class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Home</a>
-            <!-- Add Auth stuff -->
-            <a href="authors/{{$author->slug}}/posts" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">{{$author->name}}</a>
-            <form action="/"
-                  method="post">
-                <input type="hidden" name="action" value="logout">
-                <input type="hidden" name="resource" value="auth">
+            @guest
+                <a href="/login"
+                   class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Login</a>
+            @endguest
+            @auth
+            <a href="authors/{{auth()->user()->slug}}/posts"
+               class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">{{auth()->user()->name}}</a>
+            <form action="/logout" method="post">
+                @csrf
                 <button type="submit">Logout</button>
             </form>
+            @endauth
         </nav>
     </div>
 </header>

@@ -17,10 +17,10 @@ class Authors extends Component
      */
     public function __construct()
     {
-        if (request()->has('aside-expanded') && request()->has('aside-expanded') === 'authors') {
+        if (request()->has('authors-expanded')) {
             $this->authors = User::withCount(['posts'])->get();
         } else {
-            $this->authors = User::withCount(['posts'])->limit(5)->get();
+            $this->authors = User::withCount(['posts'])->take(5)->get();
         }
     }
 

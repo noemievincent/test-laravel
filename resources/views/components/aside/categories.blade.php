@@ -9,10 +9,10 @@
                 </li>
             @endforeach
         </ul>
-        @if(request()->has('aside-expanded'))
-            <a href="{{strtok($_SERVER["REQUEST_URI"], '?')}}" class="text-blue-500 hover:underline">Reduce</a>
+        @if(request()->has('categories-expanded'))
+            <a href="/posts" class="text-blue-500 hover:underline">Reduce</a>
         @else
-            <a href="{{$_SERVER['REQUEST_URI']}}?aside-expanded=categories" class="text-blue-500 hover:underline">See all categories</a>
+            <a href="/posts?categories-expanded" class="text-blue-500 hover:underline">See all categories</a>
         @endif
     </div>
 </section>
