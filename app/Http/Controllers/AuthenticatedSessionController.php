@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 
 class AuthenticatedSessionController extends Controller
@@ -11,14 +12,23 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-    public function store()
+    public function store(LoginRequest $request)
     {
-        if (auth()->attempt(request()->only('email', 'password'))) {
+        $validated = $request->validated();
+
+//        dd($validated);
+
+        if (auth()->attempt($validated)) {
             request()->session()->regenerate();
-            return redirect('/posts');
+            return redirect('/posts')->with('success', 'Welcome back, ' . auth()->user()->name);
         }
 
-        return back();
+        return back()
+            ->withErrors([
+                'email' => trans('auth.failed'),
+                'password' => trans('auth.password'),
+            ])
+            ->withInput();
     }
 
     public function destroy()

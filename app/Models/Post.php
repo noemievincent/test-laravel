@@ -51,6 +51,19 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'excerpt',
+        'body',
+        'slug',
+        'user_id',
+    ];
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

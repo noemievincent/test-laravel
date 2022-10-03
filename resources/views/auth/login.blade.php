@@ -53,18 +53,25 @@
                     <form action="/login" method="post">
                         @csrf
                         <label for="email"
-                               class="block mb-2">Email</label>
+                               class="@error('email') text-red-600 @enderror block mb-2">Email</label>
+                        @error('email')
+                        <p class="text-red-600 mb-2">{{ $message }}</p>
+                        @enderror
                         <input id="email"
                                type="text"
                                name="email"
-                               class="w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                               value="{{ old('email') }}"
+                               class="@error('email') outline outline-2 outline-red-600 @enderror w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">
 
                         <label for="password"
-                               class="block mt-8 mb-2">Password</label>
+                               class="@error('password') text-red-600 @enderror block mt-8 mb-2">Password</label>
+                        @error('password')
+                        <p class="text-red-600 mb-2">{{ $message }}</p>
+                        @enderror
                         <input name="password"
                                type="password"
                                id="password"
-                               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                               class="@error('password') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">
 
                         <button type="submit"
                                 class="float-right mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">

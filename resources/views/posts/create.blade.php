@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
@@ -39,38 +39,50 @@
                     <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Create Post</h1>
                 </div>
                 <div class="mt-6">
-                    <form action="/create" method="post">
+                    <form action="/posts/create" method="post">
                         @csrf
-                        <label for="post-title"
-                               class="block mb-2">Post Title</label>
-                        <input id="post-title"
+                        <label for="title"
+                               class="@error('title') text-red-600 @enderror block mb-2">Post Title</label>
+                        @error('title')
+                        <p class="text-red-600 mb-2">{{ $message }}</p>
+                        @enderror
+                        <input id="title"
                                type="text"
-                               name="post-title"
-                               class="w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <label for="post-excerpt"
-                               class="block mt-8 mb-2">Post Excerpt</label>
-                        <textarea name="post-excerpt"
-                                  id="post-excerpt"
+                               name="title"
+                               value="{{ old('title') }}"
+                               class="@error('title') outline outline-2 outline-red-600 @enderror w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">
+                        <label for="excerpt"
+                               class="@error('excerpt') text-red-600 @enderror block mt-8 mb-2">Post Excerpt</label>
+                        @error('excerpt')
+                        <p class="text-red-600 mb-2">{{ $message }}</p>
+                        @enderror
+                        <textarea name="excerpt"
+                                  id="excerpt"
                                   rows="5"
-                                  class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                        <label for="post-body"
-                               class="block mt-8 mb-2">Post Body</label>
-                        <textarea name="post-body"
-                                  id="post-body"
+                                  class="@error('excerpt') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">@if(old('excerpt')){{ old('excerpt') }}@endif</textarea>
+                        <label for="body"
+                               class="@error('body') text-red-600 @enderror block mt-8 mb-2">Post Body</label>
+                        @error('body')
+                        <p class="text-red-600 mb-2">{{ $message }}</p>
+                        @enderror
+                        <textarea name="body"
+                                  id="body"
                                   rows="10"
-                                  class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                        <label for="post-category"
-                               class="block mt-8 mb-2">Post Category</label>
-                        <select name="post-category"
-                                id="post-category"
-                                class="w-full border- rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-
-                            <option value="">
-
-                            </option>
-
+                                  class="@error('body') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">@if(old('body')){{ old('body') }}@endif</textarea>
+                        <label for="category"
+                               class="@error('category') text-red-600 @enderror block mt-8 mb-2">Post Category</label>
+                        @error('category')
+                        <p class="text-red-600 mb-2">{{ $message }}</p>
+                        @enderror
+                        <select name="category"
+                                id="category"
+                                class="@error('category') outline outline-2 outline-red-600 @enderror w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            @foreach($categories as $category)
+                                <option value="{{$category->id}}">
+                                    {{ucwords($category->name)}}
+                                </option>
+                            @endforeach
                         </select>
-
                         <button type="submit"
                                 class="float-right mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
                             Create new post

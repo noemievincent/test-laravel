@@ -35,6 +35,13 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'slug'];
+
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class);

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use App\View\Components\Aside\Categories;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -33,18 +35,30 @@ class PostController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+
+        $post_data = $request->safe()->only(['title', 'excerpt', 'body']);
+        $post_data['slug'] = \Str::slug($post_data['title']);
+        $post_data['user_id'] = auth()->user()->id;
+
+        $category_id = $request->safe()->only('category');
+
+        $post = Post::create($post_data);
+        $post->categories()->attach($category_id);
+
+        return view('posts.single', compact('post'));
+
     }
 
     /**
