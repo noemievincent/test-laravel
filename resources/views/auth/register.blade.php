@@ -39,7 +39,7 @@
     <div class="px-6 py-8">
         <div class="container flex justify-between mx-auto">
             <div class="w-full">
-                <h1 class="text-center font-extrabold lg:uppercase">Login</h1>
+                <h1 class="text-center font-extrabold lg:uppercase">Create an account</h1>
             </div>
         </div>
     </div>
@@ -47,13 +47,24 @@
         <div class="container flex justify-between mx-auto">
             <div class="w-full lg:w-8/12">
                 <div class="flex items-center justify-between">
-                    <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Login to the blog</h1>
+                    <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Create an account</h1>
                 </div>
                 <div class="mt-6">
-                    <form action="/login" method="post">
+                    <form action="/register" method="post">
                         @csrf
+                        <label for="name"
+                               class="@error('name') text-red-600 @enderror block mb-2">Name</label>
+                        @error('name')
+                        <p class="text-red-600 mb-2">{{ $message }}</p>
+                        @enderror
+                        <input id="name"
+                               type="text"
+                               name="name"
+                               value="{{ old('name') }}"
+                               class="@error('name') outline outline-2 outline-red-600 @enderror w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">
+
                         <label for="email"
-                               class="@error('email') text-red-600 @enderror block mb-2">Email</label>
+                               class="@error('email') text-red-600 @enderror block mb-2 mt-8">Email</label>
                         @error('email')
                         <p class="text-red-600 mb-2">{{ $message }}</p>
                         @enderror
@@ -75,10 +86,9 @@
 
                         <button type="submit"
                                 class="float-right mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
-                            Login
+                            Create my account
                         </button>
                     </form>
-                    <p class="mt-4"><a href="/">I forgot my password</a></p>
                 </div>
             </div>
             <x-aside></x-aside>

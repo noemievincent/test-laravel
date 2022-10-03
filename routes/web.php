@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostsByAuthorsController;
@@ -38,3 +39,6 @@ Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->middleware('guest');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth');
+
+Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest');
+Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
