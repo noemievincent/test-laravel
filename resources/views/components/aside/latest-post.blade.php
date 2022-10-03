@@ -1,6 +1,6 @@
 <section class="px-8 mt-10">
     <h3 class="mb-4 text-xl font-bold text-gray-700">Recent Post</h3>
-    <div class="flex flex-col max-w-sm px-8 py-6 mx-auto bg-white rounded-lg shadow-md gap-2">
+    <div class="flex flex-col max-w-sm px-6 py-6 mx-auto bg-white rounded-lg shadow-md gap-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center"><img
                     src="{{$post->user->avatar}}"

@@ -26,8 +26,12 @@ Route::get('posts', [PostController::class, 'index']);
 Route::get('authors/{author:slug}/posts', PostsByAuthorsController::class);
 Route::get('categories/{category:slug}/posts', PostsByCategoriesController::class);
 
+// Create
+Route::get('posts/create', [PostController::class, 'create']);
+
 // Show
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
+
 
 // Auth
 Route::get('login', [AuthenticatedSessionController::class, 'create'])->middleware('guest');

@@ -13,8 +13,10 @@
                    class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Login</a>
             @endguest
             @auth
-            <a href="authors/{{auth()->user()->slug}}/posts"
+            <a href="/authors/{{auth()->user()->slug}}/posts"
                class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">{{auth()->user()->name}}</a>
+            <a href="/posts/create"
+               class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">New Post</a>
             <form action="/logout" method="post">
                 @csrf
                 <button type="submit">Logout</button>
