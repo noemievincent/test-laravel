@@ -9,10 +9,10 @@
                 </li>
             @endforeach
         </ul>
-        @if(request()->has('categories-expanded'))
-            <a href="/posts" class="text-blue-500 hover:underline">Reduce</a>
+        @if($categories_count > $categories->count())
+            <div class="text-right"><a href="?aside-expanded=categories" class="text-blue-500 hover:underline">See all {{ $categories_count }} categories</a></div>
         @else
-            <a href="/posts?categories-expanded" class="text-blue-500 hover:underline">See all categories</a>
+            <div class="text-right"><a href="?" class="text-blue-500 hover:underline">Reduce</a></div>
         @endif
     </div>
 </section>

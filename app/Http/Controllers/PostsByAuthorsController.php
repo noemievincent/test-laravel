@@ -15,7 +15,15 @@ class PostsByAuthorsController extends Controller
      */
     public function __invoke(User $author)
     {
-        $posts = $author->posts()->paginate(4);
+        $posts = $author->posts();
+
+        if (isset($_GET['order-by']) && $_GET['order-by'] === 'oldest') {
+            $posts = $posts->oldest();
+        } else {
+            $posts = $posts->latest();
+        }
+
+        $posts = $posts->paginate(4);
 
         return view('posts.index_by_author', compact('posts', 'author'));
     }

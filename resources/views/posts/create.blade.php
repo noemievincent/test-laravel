@@ -39,6 +39,9 @@
                     <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Create Post</h1>
                 </div>
                 <div class="mt-6">
+                    @if(old('categories'))
+                        <?php var_dump(old('categories')[0]);?>
+                    @endif
                     <form action="/posts/create" method="post">
                         @csrf
                         <label for="title"
@@ -70,19 +73,11 @@
                                   rows="10"
                                   class="@error('body') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">@if(old('body')){{ old('body') }}@endif</textarea>
                         <label for="category"
-                               class="@error('category') text-red-600 @enderror block mt-8 mb-2">Post Category</label>
-                        @error('category')
+                               class="@error('categories') text-red-600 @enderror block mt-8 mb-2">Post Category</label>
+                        @error('categories')
                         <p class="text-red-600 mb-2">{{ $message }}</p>
                         @enderror
-                        <select name="category"
-                                id="category"
-                                class="@error('category') outline outline-2 outline-red-600 @enderror w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}">
-                                    {{ucwords($category->name)}}
-                                </option>
-                            @endforeach
-                        </select>
+                        <x-posts.select-categories :categories="$categories"/>
                         <button type="submit"
                                 class="float-right mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
                             Create new post

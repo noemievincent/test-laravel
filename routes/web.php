@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 // Index
 Route::get('/posts', [PostController::class, 'index']);
-Route::get('/authors/{author:slug}/posts', PostsByAuthorsController::class);
+Route::get('/authors/{author:slug}', PostsByAuthorsController::class);
 Route::get('/categories/{category:slug}/posts', PostsByCategoriesController::class);
 
 // Create

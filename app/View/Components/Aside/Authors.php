@@ -3,12 +3,13 @@
 namespace App\View\Components\Aside;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
+use Illuminate\Database\Eloquent\Collection;
 
 class Authors extends Component
 {
     public Collection $authors;
+    public int $authors_count;
 
     /**
      * Create a new component instance.
@@ -17,10 +18,12 @@ class Authors extends Component
      */
     public function __construct()
     {
-        if (request()->has('authors-expanded')) {
-            $this->authors = User::withCount(['posts'])->get();
+        $query = User::withCount(['posts', 'comments']);
+        $this->authors_count = User::count();
+        if (request()->has('aside-expanded') && request('aside-expanded') === 'authors') {
+            $this->authors = $query->get();
         } else {
-            $this->authors = User::withCount(['posts'])->take(5)->get();
+            $this->authors = $query->take(5)->get();
         }
     }
 

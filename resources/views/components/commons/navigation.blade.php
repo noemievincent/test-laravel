@@ -4,6 +4,9 @@
             <a href="/posts"
                class="text-xl font-bold text-gray-800 md:text-2xl">My Awesome Blog</a>
         </h1>
+        @if(session('success'))
+            <p class="bg-emerald-400 px-8 py-2 text-white">{{session('success')}}</p>
+        @endif
         <nav class="flex-col hidden md:flex md:flex-row md:-mx-4">
             <h2 class="sr-only">Main Navigation</h2>
             <a href="/posts"
@@ -25,8 +28,5 @@
             </form>
             @endauth
         </nav>
-        @if(session('success'))
-        <p>{{session('success')}}</p>
-        @endif
     </div>
 </header>

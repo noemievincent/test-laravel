@@ -37,7 +37,7 @@
             <div class="w-full lg:w-8/12">
                 <div class="flex items-center justify-between">
                     <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Posts from {{ucwords($category->name)}}</h1>
-                    @include('partials._order-posts')
+                    <x-commons.order-post></x-commons.order-post>
                 </div>
                 <x-posts.article :posts="$posts"></x-posts.article>
                 <x-commons.pagination :posts="$posts"/>

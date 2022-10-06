@@ -9,8 +9,8 @@ use Illuminate\View\Component;
 
 class Categories extends Component
 {
-
     public Collection $categories;
+    public int $categories_count;
 
     /**
      * Create a new component instance.
@@ -19,10 +19,12 @@ class Categories extends Component
      */
     public function __construct()
     {
-        if (request()->has('categories-expanded')) {
-            $this->categories = Category::withCount('posts')->get();
+        $query = Category::withCount('posts');
+        $this->categories_count = Category::count();
+        if (request()->has('aside-expanded') && request('aside-expanded') === 'categories') {
+            $this->categories = $query->get();
         } else {
-            $this->categories = Category::withCount('posts')->take(3)->get();
+            $this->categories = $query->take(5)->get();
         }
     }
 

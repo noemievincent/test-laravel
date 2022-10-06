@@ -15,7 +15,15 @@ class PostsByCategoriesController extends Controller
      */
     public function __invoke(Category $category)
     {
-        $posts = $category->posts()->paginate(4);
+        $posts = $category->posts();
+
+        if (isset($_GET['order-by']) && $_GET['order-by'] === 'oldest') {
+            $posts = $posts->oldest();
+        } else {
+            $posts = $posts->latest();
+        }
+
+        $posts = $posts->paginate(4);
 
         return view('posts.index_by_category', compact('posts', 'category'));
     }

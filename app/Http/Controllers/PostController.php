@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostRequest;
+use App\Http\Requests\StorePostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -23,7 +23,16 @@ class PostController extends Controller
 
     public function index(): View|Factory|Application
     {
-        $posts = Post::with('comments', 'categories', 'user')->paginate(4);
+        $posts = Post::with('comments', 'categories', 'user');
+
+        if (isset($_GET['order-by']) && $_GET['order-by'] === 'oldest') {
+            $posts = $posts->oldest();
+        } else {
+            $posts = $posts->latest();
+        }
+
+
+        $posts = $posts->paginate(4);
 
         return view('posts.index', compact('posts'));
     }
@@ -42,20 +51,22 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return Application|Factory|View
      */
-    public function store(PostRequest $request)
+    public function store(StorePostRequest $request)
     {
-
         $post_data = $request->safe()->only(['title', 'excerpt', 'body']);
         $post_data['slug'] = \Str::slug($post_data['title']);
         $post_data['user_id'] = auth()->user()->id;
 
-        $category_id = $request->safe()->only('category');
+        $categories = $request->input('categories');
 
         $post = Post::create($post_data);
-        $post->categories()->attach($category_id);
+
+        foreach ($categories as $category) {
+            $post->categories()->attach($category);
+        }
 
         return view('posts.single', compact('post'));
 
@@ -64,7 +75,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post): View|Factory|Application
@@ -75,7 +86,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,8 +97,8 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -98,7 +109,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
