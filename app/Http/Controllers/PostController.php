@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use App\View\Components\Aside\Categories;
@@ -76,11 +77,12 @@ class PostController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function show(Post $post): View|Factory|Application
+    public function show(Post $post): Application|Factory|View
     {
-        return view('posts.single', compact('post'));
+        $comments = Comment::with(['post', 'user'])->where('post_id', $post->id)->get();
+        return view('posts.single', compact('post', 'comments'));
     }
 
     /**

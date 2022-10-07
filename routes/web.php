@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\PostController;
@@ -33,6 +34,10 @@ Route::post('/posts/create', [PostController::class, 'store']);
 
 // Show
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+
+// Comment
+Route::post('{post:slug}/comment/create', [CommentController::class, 'store'])->middleware('auth');
+Route::post('{post:slug}/comment/update', [CommentController::class, 'store'])->middleware('auth');
 
 
 // Auth

@@ -1,4 +1,7 @@
-<!doctype html>
+<?php
+//dd($comments);
+?>
+    <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -65,6 +68,96 @@
                             {!!$post->body!!}
                         </div>
                     </div>
+                </div>
+                <div class="mt-10">
+                    @if(!(request()->has('create-comment')))
+                        <a href="?create-comment"
+                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md">Add a new
+                            comment</a>
+                    @endif
+                    @auth
+                        @if(request()->has('create-comment'))
+                            <div class="createComment">
+                                <form action="/{{$post->slug}}/comment/create"
+                                      method="post">
+                                    @csrf
+                                    <label for="body"
+                                           class="block mb-2 text-lg font-bold text-gray-700">Add a new comment</label>
+                                    <textarea name="body"
+                                              id="body"
+                                              rows="7"
+                                              class="pl-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"><?= $_SESSION['old']['comment-body'] ?? '' ?></textarea>
+                                    <div class="flex items-center mt-4 gap-6">
+                                        <button type="submit" id="addComment"
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
+                                            Post
+                                        </button>
+                                        <a href="?" class="text-blue-500 hover:underline">Cancel</a>
+                                    </div>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
+                </div>
+                <div class="mt-5">
+                    @foreach ($comments as $comment)
+                        <div class="pb-4 flex flex-col border-black border-b">
+                            <div class="container flex justify-between items-center gap-3 mt-3">
+                                <div class="container flex items-center gap-3 mt-3 mb-3">
+                                    <img class="rounded-t-full rounded-b-full max-h-12"
+                                         src="{{$comment->user->avatar}}"
+                                         alt="Avatar de {{ucwords($comment->user->name)}}">
+                                    <p><a href="/authors/{{ $comment->user->slug }}"
+                                          class="mx-1 font-bold text-gray-700 hover:underline">{{ ucwords($comment->user->name) }}</a>
+                                </div>
+                                <div class="flex gap-4">
+                                    @auth
+                                        @if(auth()->user()->name === $comment->user->name)
+                                            <a href="?modify-comment">✏️</a>
+                                        @endif
+                                    @endauth
+                                    @auth
+                                        @if(auth()->user()->name === $comment->user->name)
+                                            <form action="/comment/destroy" method="post">
+                                                @csrf
+                                                <button type="submit">❌︎</button>
+                                            </form>
+                                        @endif
+                                    @endauth
+                                </div>
+                            </div>
+                            <div class="container flex">
+                                <span class="font-light text-gray-600 mb-4">
+                                    {{(new DateTime($comment->created_at))->format('M j, Y - G:i')}}
+                                </span>
+                            </div>
+                            @auth
+                                @if(auth()->user()->name === $comment->user->name && request()->has('modify-comment'))
+                                    <div class="update">
+                                        <form action="/{{$post->slug}}/comment/update" method="post">
+                                            @csrf
+                                            <label for="body"
+                                                   class="block mb-2 text-lg font-bold text-gray-700">Modify your comment</label>
+                                            <textarea name="body"
+                                                      id="body"
+                                                      rows="7"
+                                                      class="pl-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{$comment->body}}</textarea>
+                                            <div class="flex items-center mt-4  gap-6">
+                                                <button
+                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                                                    type="submit">Modify
+                                                </button>
+                                                <a href="?" class="text-blue-500 hover:underline">Cancel</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
+                            @if(!(request()->has('modify-comment')))
+                                <p>{{$comment->body}}</p>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             </article>
             <x-aside></x-aside>
