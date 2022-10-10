@@ -18,7 +18,7 @@
                    class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Create an account</a>
             @endguest
             @auth
-                <a href="/authors/{{auth()->user()->slug}}/posts"
+                <a href="/authors/{{auth()->user()->slug}}"
                    class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">{{ucwords(auth()->user()->name)}}</a>
                 @can('create', \App\Models\Post::class)
                     <a href="/posts/create"

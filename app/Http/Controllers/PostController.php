@@ -62,12 +62,12 @@ class PostController extends Controller
         $post_data['slug'] = \Str::slug($post_data['title']);
         $post_data['user_id'] = auth()->user()->id;
 
-        $categories = $request->input('categories');
+        $category_id = $request->safe()->only('category_id');
 
         $post = Post::create($post_data);
 
-        foreach ($categories as $category) {
-            $post->categories()->attach($category);
+        foreach ($category_id as $id){
+            $post->categories()->attach($id);
         }
 
         $comments = null;
@@ -95,6 +95,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $post = Post::find($post->id);
         $categories = Category::all();
         return view('posts.edit', compact('post', 'categories'));
     }
@@ -104,13 +105,11 @@ class PostController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(UpdatePostRequest $request, $slug)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-//        dd($request, $slug);
-        $post = Post::where('slug', $slug)->get();
-        dd($post);
+        $post = Post::find($post->id);
 
         $post_data = $request->safe()->only(['title', 'excerpt', 'body']);
         $post_data['slug'] = \Str::slug($post_data['title']);
@@ -126,9 +125,7 @@ class PostController extends Controller
         }
 
 
-        return redirect('/post/' . $slug);
-
-//        return view('posts.single', compact('post'));
+        return redirect('/post/' . $post->slug);
     }
 
     /**
@@ -137,9 +134,9 @@ class PostController extends Controller
      * @param int $id
      * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($slug)
+    public function destroy(Post $post)
     {
-        $post = Post::where('slug', $slug);
+        $post = Post::find($post->id);
         $post->delete();
         return redirect('/posts');
     }

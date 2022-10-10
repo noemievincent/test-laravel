@@ -54,21 +54,27 @@
                                         class="font-bold text-gray-700 hover:underline"><?= ucwords($post->user->name) ?></span>
                                 </a>
                             </div>
-                            <div class="flex gap-6">
+                            <div class="flex gap-6 items-center">
                                 <span class="font-light text-gray-600">
                                     {{(new DateTime($post->published_at))->format('M j, Y - G:i')}}
                                 </span>
-                                @auth
-                                    @if(auth()->user()->name === $post->user->name)
-                                        <div class="flex gap-4">
-                                            <a href="/post/{{$post->slug}}/edit">✏️</a>
+                                @can(['update', 'delete'], $post)
+                                    <div class="flex gap-4">
+                                        <div
+                                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md flex items-center gap-3">
+                                            <a href="/post/{{$post->slug}}/edit">Edit</a>
+                                            <svg class="h-5 w-5 text-white" <svg  width="24"  height="24"  viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" /></svg>
+                                        </div>
+                                        <div
+                                            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md flex items-center gap-3">
                                             <form action="/post/{{$post->slug}}/delete" method="post">
                                                 @csrf
-                                                <button type="submit">❌︎</button>
+                                                <button type="submit">Delete</button>
                                             </form>
+                                            <svg class="h-5 w-5 text-white"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="3 6 5 6 21 6" />  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />  <line x1="10" y1="11" x2="10" y2="17" />  <line x1="14" y1="11" x2="14" y2="17" /></svg>
                                         </div>
-                                    @endif
-                                @endauth
+                                    </div>
+                                @endcan
                             </div>
                         </div>
                         <div class="flex gap-2">
@@ -118,66 +124,66 @@
                     @endauth
                 </div>
                 @if($comments)
-                <div class="mt-5">
-                    @foreach ($comments as $comment)
-                        <div class="pb-4 flex flex-col border-black border-b">
-                            <div class="container flex justify-between items-center gap-3 mt-3">
-                                <div class="container flex items-center gap-3 mt-3 mb-3">
-                                    <img class="rounded-t-full rounded-b-full max-h-12"
-                                         src="{{$comment->user->avatar}}"
-                                         alt="Avatar de {{ucwords($comment->user->name)}}">
-                                    <p><a href="/authors/{{ $comment->user->slug }}"
-                                          class="mx-1 font-bold text-gray-700 hover:underline">{{ ucwords($comment->user->name) }}</a>
+                    <div class="mt-5">
+                        @foreach ($comments as $comment)
+                            <div class="pb-4 flex flex-col border-black border-b">
+                                <div class="container flex justify-between items-center gap-3 mt-3">
+                                    <div class="container flex items-center gap-3 mt-3 mb-3">
+                                        <img class="rounded-t-full rounded-b-full max-h-12"
+                                             src="{{$comment->user->avatar}}"
+                                             alt="Avatar de {{ucwords($comment->user->name)}}">
+                                        <p><a href="/authors/{{ $comment->user->slug }}"
+                                              class="mx-1 font-bold text-gray-700 hover:underline">{{ ucwords($comment->user->name) }}</a>
+                                    </div>
+                                    @auth
+                                        @if(auth()->user()->name === $comment->user->name)
+                                            <div class="flex gap-4">
+                                                <a href="?modify-comment&id={{$comment->id}}">✏️</a>
+                                                <form action="/post/{{$post->slug}}/comment/{{$comment->id}}/delete"
+                                                      method="post">
+                                                    @csrf
+                                                    <button type="submit">❌︎</button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    @endauth
+                                </div>
+                                <div class="container flex">
+                                <span class="font-light text-gray-600 mb-4">
+                                    {{(new DateTime($comment->created_at))->format('M j, Y - G:i')}}
+                                </span>
                                 </div>
                                 @auth
-                                    @if(auth()->user()->name === $comment->user->name)
-                                        <div class="flex gap-4">
-                                            <a href="?modify-comment&id={{$comment->id}}">✏️</a>
-                                            <form action="/post/{{$post->slug}}/comment/{{$comment->id}}/delete"
-                                                  method="post">
+                                    @if(auth()->user()->name === $comment->user->name && request()->has('modify-comment') && request('id') == $comment->id)
+                                        <div class="update">
+                                            <form action="/post/{{$post->slug}}/comment/{{$comment->id}}" method="post">
                                                 @csrf
-                                                <button type="submit">❌︎</button>
+                                                <label for="body"
+                                                       class="@error('body') text-red-600 @enderror block mb-2 text-lg font-bold text-gray-700">Modify
+                                                    your
+                                                    comment</label>
+                                                @error('body')
+                                                <p class="text-red-600 mb-2">{{ $message }}</p>
+                                                @enderror
+                                                <textarea name="body"
+                                                          id="body"
+                                                          rows="7"
+                                                          class="@error('body') outline outline-2 outline-red-600 @enderror pl-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{old('body') !== null ? old('body') : $comment->body }}</textarea>
+                                                <div class="flex items-center mt-4  gap-6">
+                                                    <button
+                                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                                                        type="submit">Modify
+                                                    </button>
+                                                    <a href="?" class="text-blue-500 hover:underline">Cancel</a>
+                                                </div>
                                             </form>
                                         </div>
                                     @endif
                                 @endauth
+                                <p>{{$comment->body}}</p>
                             </div>
-                            <div class="container flex">
-                                <span class="font-light text-gray-600 mb-4">
-                                    {{(new DateTime($comment->created_at))->format('M j, Y - G:i')}}
-                                </span>
-                            </div>
-                            @auth
-                                @if(auth()->user()->name === $comment->user->name && request()->has('modify-comment') && request('id') == $comment->id)
-                                    <div class="update">
-                                        <form action="/post/{{$post->slug}}/comment/{{$comment->id}}" method="post">
-                                            @csrf
-                                            <label for="body"
-                                                   class="@error('body') text-red-600 @enderror block mb-2 text-lg font-bold text-gray-700">Modify
-                                                your
-                                                comment</label>
-                                            @error('body')
-                                            <p class="text-red-600 mb-2">{{ $message }}</p>
-                                            @enderror
-                                            <textarea name="body"
-                                                      id="body"
-                                                      rows="7"
-                                                      class="@error('body') outline outline-2 outline-red-600 @enderror pl-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{old('body') !== null ? old('body') : $comment->body }}</textarea>
-                                            <div class="flex items-center mt-4  gap-6">
-                                                <button
-                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-                                                    type="submit">Modify
-                                                </button>
-                                                <a href="?" class="text-blue-500 hover:underline">Cancel</a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                @endif
-                            @endauth
-                            <p>{{$comment->body}}</p>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
                 @endif
             </article>
             <x-aside></x-aside>

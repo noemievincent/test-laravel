@@ -30,18 +30,18 @@ Route::get('/authors/{author:slug}', PostsByAuthorsController::class);
 Route::get('/categories/{category:slug}/posts', PostsByCategoriesController::class);
 
 // Create
-Route::post('/posts', [PostController::class, 'store'])->middleware('auth', 'can:create,' . Post::class);
-Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth', 'can:create,' . Post::class);
+Route::post('/posts', [PostController::class, 'store'])->middleware('auth', 'can:create, App\Models\Post');
+Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth', 'can:create, App\Models\Post');
 
 // Show
 Route::get('/post/{post:slug}', [PostController::class, 'show']);
 
 // Edit
-Route::get('/post/{post:slug}/edit', [PostController::class, 'edit'])->middleware('auth');
-Route::post('/post/{post:slug}', [PostController::class, 'update']);
+Route::post('/post/{post:slug}', [PostController::class, 'update'])->middleware('auth')->can('update', 'post');
+Route::get('/post/{post:slug}/edit', [PostController::class, 'edit'])->middleware('auth')->can('update', 'post');
 
 //Delete
-Route::post('/post/{post:slug}/delete', [PostController::class, 'destroy']);
+Route::post('/post/{post:slug}/delete', [PostController::class, 'destroy'])->middleware('auth')->can('delete', 'post');
 
 // Comment
 Route::post('/post/{post:slug}/comment', [CommentController::class, 'store'])->middleware('auth');
