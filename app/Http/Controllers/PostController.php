@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
@@ -69,7 +70,8 @@ class PostController extends Controller
             $post->categories()->attach($category);
         }
 
-        return view('posts.single', compact('post'));
+        $comments = null;
+        return redirect('/post/' . $post->slug);
 
     }
 
@@ -81,7 +83,7 @@ class PostController extends Controller
      */
     public function show(Post $post): Application|Factory|View
     {
-        $comments = Comment::with(['post', 'user'])->where('post_id', $post->id)->get();
+        $comments = Comment::with('post', 'user')->where('post_id', $post->id)->get();
         return view('posts.single', compact('post', 'comments'));
     }
 
@@ -89,11 +91,12 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        return view('posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -103,19 +106,41 @@ class PostController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $slug)
     {
-        //
+//        dd($request, $slug);
+        $post = Post::where('slug', $slug)->get();
+        dd($post);
+
+        $post_data = $request->safe()->only(['title', 'excerpt', 'body']);
+        $post_data['slug'] = \Str::slug($post_data['title']);
+        $post_data['user_id'] = auth()->user()->id;
+
+        $categories = $request->input('categories');
+
+
+        $post->update($post_data);
+
+        foreach ($categories as $category) {
+            $post->categories()->attach($category);
+        }
+
+
+        return redirect('/post/' . $slug);
+
+//        return view('posts.single', compact('post'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $post = Post::where('slug', $slug);
+        $post->delete();
+        return redirect('/posts');
     }
 }

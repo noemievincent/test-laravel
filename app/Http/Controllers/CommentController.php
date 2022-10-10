@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+
     /**
      * Store a newly created resource in storage.
      *
@@ -33,21 +39,26 @@ class CommentController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCommentRequest $request, $slug, $id)
     {
-        //
+        $comment_data = $request->safe()->only('body');
+        $comment = Comment::find($id);
+        $comment->update($comment_data);
+        return redirect('/post/' . $slug);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy($post, $id)
     {
-        //
+        $comment = Comment::find($id);
+        $comment->delete();
+        return redirect('/post/' . $post);
     }
 }

@@ -3,7 +3,7 @@
         <div class="max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md flex flex-col gap-2">
             <div class="flex items-center justify-between">
                 <div class="flex item-center justify-between">
-                    <a href="/authors/{{$post->user->slug}}/posts"
+                    <a href="/authors/{{$post->user->slug}}"
                        class="flex items-center gap-2">
                         <img src="{{$post->user->avatar}}"
                              alt="{{$post->user->name}}"
@@ -13,9 +13,22 @@
                         </span>
                     </a>
                 </div>
-                <span class="font-light text-gray-600">
-                    {{(new DateTime($post->published_at))->format('M j, Y - G:i')}}
-                </span>
+                <div class="flex gap-6">
+                    <span class="font-light text-gray-600">
+                        {{(new DateTime($post->published_at))->format('M j, Y - G:i')}}
+                    </span>
+                    @auth
+                        @if(auth()->user()->name === $post->user->name)
+                            <div class="flex gap-4">
+                                <a href="/post/{{$post->slug}}/edit">✏️</a>
+                                <form action="/post/{{$post->slug}}/delete" method="post">
+                                    @csrf
+                                    <button type="submit">❌︎</button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
+                </div>
             </div>
             <div class="flex gap-2">
                 @foreach($post->categories as $category)
@@ -26,7 +39,7 @@
                 @endforeach
             </div>
             <h2>
-                <a href="/posts/{{$post->slug}}"
+                <a href="/post/{{$post->slug}}"
                    class="text-2xl font-bold text-gray-700 hover:underline">
                     {{$post->title}}
                 </a>

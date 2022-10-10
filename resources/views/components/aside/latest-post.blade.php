@@ -6,14 +6,14 @@
                     src="{{$post->user->avatar}}"
                     alt="avatar"
                     class="object-cover w-8 h-8 rounded-full">
-                <a href="/authors/{{$post->user->slug}}/posts"
+                <a href="/authors/{{$post->user->slug}}"
                    class="font-bold mx-3 text-sm text-gray-700 hover:underline">{{ucwords($post->user->name)}}</a>
             </div>
             <span
                 class="text-sm font-light text-gray-600"><?= (new DateTime($post->user->published_at))->format('M j, Y') ?></span>
         </div>
         <div>
-            <a href="/posts/{{$post->slug}}"
+            <a href="/post/{{$post->slug}}"
                class="font-bold text-lg font-medium text-gray-700 hover:underline">{{$post->title}}</a>
         </div>
         <div class="flex items-center gap-2">

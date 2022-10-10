@@ -30,15 +30,23 @@ Route::get('/categories/{category:slug}/posts', PostsByCategoriesController::cla
 
 // Create
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth');
-Route::post('/posts/create', [PostController::class, 'store']);
+Route::post('/posts', [PostController::class, 'store']);
 
 // Show
-Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+Route::get('/post/{post:slug}', [PostController::class, 'show']);
+
+// Edit
+Route::get('/post/{post:slug}/edit', [PostController::class, 'edit'])->middleware('auth');
+Route::post('/post/{post:slug}', [PostController::class, 'update']);
+
+//Delete
+Route::post('/post/{post:slug}/delete', [PostController::class, 'destroy']);
 
 // Comment
-Route::post('{post:slug}/comment/create', [CommentController::class, 'store'])->middleware('auth');
-Route::post('{post:slug}/comment/update', [CommentController::class, 'store'])->middleware('auth');
+Route::post('/post/{post:slug}/comment', [CommentController::class, 'store'])->middleware('auth');
+Route::post('/post/{post:slug}/comment/{comment}', [CommentController::class, 'update'])->middleware('auth');
 
+Route::post('/post/{post:slug}/comment/{comment}/delete', [CommentController::class, 'destroy']);
 
 // Auth
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login')->middleware('guest');

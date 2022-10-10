@@ -26,7 +26,7 @@
           content="#0ed3cf">
     <meta name="theme-color"
           content="#0ed3cf">
-    <title>Create A New Post - My Awesome Blog</title>
+    <title>Edit your post - My Awesome Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-200">
@@ -36,10 +36,10 @@
         <div class="container flex justify-between mx-auto">
             <div class="w-full lg:w-8/12">
                 <div class="flex items-center justify-between">
-                    <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Create Post</h1>
+                    <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Edit your Post</h1>
                 </div>
                 <div class="mt-6">
-                    <form action="/posts" method="post">
+                    <form action="/post/{{$post->slug}}" method="post">
                         @csrf
                         <label for="title"
                                class="@error('title') text-red-600 @enderror block mb-2">Post Title</label>
@@ -49,7 +49,7 @@
                         <input id="title"
                                type="text"
                                name="title"
-                               value="{{ old('title') }}"
+                               value="{{old('title') !== null ? old('title') : $post->title }}"
                                class="@error('title') outline outline-2 outline-red-600 @enderror w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">
                         <label for="excerpt"
                                class="@error('excerpt') text-red-600 @enderror block mt-8 mb-2">Post Excerpt</label>
@@ -59,7 +59,7 @@
                         <textarea name="excerpt"
                                   id="excerpt"
                                   rows="5"
-                                  class="@error('excerpt') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">@if(old('excerpt')){{ old('excerpt') }}@endif</textarea>
+                                  class="@error('excerpt') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">{{old('excerpt') !== null ? old('excerpt') : $post->excerpt }}</textarea>
                         <label for="body"
                                class="@error('body') text-red-600 @enderror block mt-8 mb-2">Post Body</label>
                         @error('body')
@@ -68,16 +68,16 @@
                         <textarea name="body"
                                   id="body"
                                   rows="10"
-                                  class="@error('body') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">@if(old('body')){{ old('body') }}@endif</textarea>
+                                  class="@error('body') outline outline-2 outline-red-600 @enderror w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-2">{!!$post->body!!}</textarea>
                         <label for="category"
                                class="@error('categories') text-red-600 @enderror block mt-8 mb-2">Post Category</label>
                         @error('categories')
                         <p class="text-red-600 mb-2">{{ $message }}</p>
                         @enderror
-                        <x-posts.select-categories :categories="$categories" :post="$post ?? null"/>
+                        <x-posts.select-categories :categories="$categories" :post="$post"/>
                         <button type="submit"
                                 class="float-right mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
-                            Create new post
+                            Edit
                         </button>
                     </form>
                 </div>
