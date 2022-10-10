@@ -46,7 +46,7 @@
             </h2>
             <p class="mt-2 text-gray-600">{{$post->excerpt}}</p>
             <div class="flex items-center justify-between mt-4">
-                <a href="/posts/{{$post->id}}"
+                <a href="/post/{{$post->slug}}"
                    class="text-blue-500 hover:underline">
                     Read more<span class="sr-only"> about {{$post->title}}</span>
                 </a>

@@ -24,10 +24,11 @@ class UserSeeder extends Seeder
             $slug = Str::slug($name);
             $avatar = $faker->imageUrl(128, 128, true, 'people', $name);
             $email = $i > 0 ? $faker->unique()->safeEmail : 'noemie.vincent1@student.hepl.be';
+            $is_admin = $i > 0 ? false : true;
             $password = bcrypt('change_this');
             DB::table('users')
                 ->insert(
-                    compact('name', 'slug', 'avatar', 'email', 'password')
+                    compact('name', 'slug', 'avatar', 'email', 'is_admin', 'password')
                 );
         }
     }

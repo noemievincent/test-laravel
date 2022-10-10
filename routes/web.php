@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostsByAuthorsController;
 use App\Http\Controllers\PostsByCategoriesController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,8 +30,8 @@ Route::get('/authors/{author:slug}', PostsByAuthorsController::class);
 Route::get('/categories/{category:slug}/posts', PostsByCategoriesController::class);
 
 // Create
-Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth');
-Route::post('/posts', [PostController::class, 'store']);
+Route::post('/posts', [PostController::class, 'store'])->middleware('auth', 'can:create,' . Post::class);
+Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth', 'can:create,' . Post::class);
 
 // Show
 Route::get('/post/{post:slug}', [PostController::class, 'show']);
