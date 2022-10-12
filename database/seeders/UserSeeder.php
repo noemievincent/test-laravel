@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -26,8 +27,7 @@ class UserSeeder extends Seeder
             $email = $i > 0 ? $faker->unique()->safeEmail : 'noemie.vincent1@student.hepl.be';
             $is_admin = $i > 0 ? false : true;
             $password = bcrypt('change_this');
-            DB::table('users')
-                ->insert(
+            User::create(
                     compact('name', 'slug', 'avatar', 'email', 'is_admin', 'password')
                 );
         }

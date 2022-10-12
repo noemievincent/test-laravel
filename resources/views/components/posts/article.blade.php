@@ -13,25 +13,40 @@
                         </span>
                     </a>
                 </div>
-                <div class="flex gap-6 items-center">
+                <div class="flex gap-4 items-center">
+                    @can(['update', 'delete'], $post)
+                        <div class="flex gap-4 items-center">
+                            <div
+                                class="text-sm text-blue-400 hover:text-blue-600 font-bold rounded-md flex items-center gap-2">
+                                <a href="/post/{{$post->slug}}/edit">Edit</a>
+                                <svg class="h-4 w-4" width="24" height="24"
+                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </div>
+                            <div
+                                class="text-sm text-red-400 hover:text-red-600 font-bold rounded-md flex items-center gap-2">
+                                <form action="/post/{{$post->slug}}/delete" method="post">
+                                    @csrf
+                                    <button type="submit">Delete</button>
+                                </form>
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    <line x1="10" y1="11" x2="10" y2="17"/>
+                                    <line x1="14" y1="11" x2="14" y2="17"/>
+                                </svg>
+                            </div>
+                        </div>
+                    @endcan
                     <span class="font-light text-gray-600">
                         {{(new DateTime($post->published_at))->format('M j, Y - G:i')}}
                     </span>
-                    @can(['update', 'delete'], $post)
-                        <div
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md flex items-center gap-3">
-                            <a href="/post/{{$post->slug}}/edit">Edit</a>
-                            <svg class="h-5 w-5 text-white" <svg  width="24"  height="24"  viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" /></svg>
-                        </div>
-                        <div
-                            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md flex items-center gap-3">
-                            <form action="/post/{{$post->slug}}/delete" method="post">
-                                @csrf
-                                <button type="submit">Delete</button>
-                            </form>
-                            <svg class="h-5 w-5 text-white"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="3 6 5 6 21 6" />  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />  <line x1="10" y1="11" x2="10" y2="17" />  <line x1="14" y1="11" x2="14" y2="17" /></svg>
-                        </div>
-                    @endcan
                 </div>
             </div>
             <div class="flex gap-2">

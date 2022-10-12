@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,7 +22,7 @@ class CategoriesSeeder extends Seeder
         for ($i = 0; $i < 7; $i++) {
             $name = strtolower(substr($faker->sentence(2), 0, -1));
             $slug = Str::slug($name);
-            DB::table('categories')->insert(compact(
+            Category::create(compact(
                 'name', 'slug'
             ));
         }

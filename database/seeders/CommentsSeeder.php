@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -30,7 +31,7 @@ class CommentsSeeder extends Seeder
                     $body = $faker->text;
                     $created_at = Carbon::create($faker->dateTimeBetween('-3 years', 'now')->format('Y-m-d H:i:s'));
 
-                    DB::table('comments')->insert(
+                    Comment::create(
                         compact('body', 'user_id', 'post_id', 'created_at')
                     );
                 }
