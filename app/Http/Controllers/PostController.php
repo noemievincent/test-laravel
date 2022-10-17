@@ -66,13 +66,11 @@ class PostController extends Controller
 
         $post = Post::create($post_data);
 
-        foreach ($category_id as $id){
+        foreach ($category_id as $id) {
             $post->categories()->attach($id);
         }
 
-        $comments = null;
         return redirect('/post/' . $post->slug);
-
     }
 
     /**
@@ -115,15 +113,13 @@ class PostController extends Controller
         $post_data['slug'] = \Str::slug($post_data['title']);
         $post_data['user_id'] = auth()->user()->id;
 
-        $categories = $request->input('categories');
-
+        $category_id = $request->safe()->only('category_id');
 
         $post->update($post_data);
 
-        foreach ($categories as $category) {
-            $post->categories()->attach($category);
+        foreach ($category_id as $id) {
+            $post->categories()->attach($id);
         }
-
 
         return redirect('/post/' . $post->slug);
     }

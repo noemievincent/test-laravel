@@ -45,7 +45,7 @@
                     <div class="max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md flex flex-col gap-2">
                         <div class="flex items-center justify-between">
                             <div class="flex item-center justify-between">
-                                <a href="/authors/{{$post->user->slug}}/posts"
+                                <a href="/authors/{{$post->user->slug}}"
                                    class="flex items-center gap-2">
                                     <img src="{{$post->user->avatar}}"
                                          alt="{{$post->user->name}}"

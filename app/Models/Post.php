@@ -78,7 +78,7 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected $dispatchesEvents = [
-        'created' => PostCreated::class,
-    ];
+//    protected $dispatchesEvents = [
+//        'created' => PostCreated::class,
+//    ];
 }

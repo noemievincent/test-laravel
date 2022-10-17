@@ -10,7 +10,7 @@
                         class="object-cover w-10 h-10 mx-4 rounded-full">
                     <div>
                         <p><a href="/authors/{{ $author->slug }}"
-                              class="mx-1 font-bold text-gray-700 hover:underline">{{ ucwords($author->name) }}</a>
+                              class="mr-1 font-bold text-gray-700 hover:underline">{{ ucwords($author->name) }}</a>
                             <span class="text-sm font-light text-gray-700">Created {{ $author->posts_count }} posts</span> and
                             <span class="text-sm font-light text-gray-700">has posted {{ $author->comments_count }} comments</span>
                         </p>
