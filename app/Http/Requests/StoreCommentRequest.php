@@ -2,10 +2,19 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCommentRequest extends FormRequest
 {
+    protected $redirect;
+
+    public function __construct()
+    {
+        $this->redirect = url()->previous().'/#create-comment-form';
+    }
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +33,7 @@ class StoreCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'body' => 'required|min:5|max:500',
+            'body' => 'required',
         ];
     }
 }

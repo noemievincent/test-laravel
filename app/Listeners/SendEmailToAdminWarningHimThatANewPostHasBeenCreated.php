@@ -3,9 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\PostCreated;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Mail;
 
 class SendEmailToAdminWarningHimThatANewPostHasBeenCreated
 {
@@ -22,12 +22,12 @@ class SendEmailToAdminWarningHimThatANewPostHasBeenCreated
     /**
      * Handle the event.
      *
-     * @param  \App\Events\PostCreated  $event
+     * @param  PostCreated  $event
      * @return void
      */
     public function handle(PostCreated $event)
     {
-        Mail::to('vingt@cent.be')
+        Mail::to('domi@domy.be')
             ->queue(new \App\Mail\PostCreated($event->post));
     }
 }

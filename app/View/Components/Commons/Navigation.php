@@ -8,7 +8,6 @@ use Illuminate\View\Component;
 class Navigation extends Component
 {
     public User $author;
-
     /**
      * Create a new component instance.
      *
@@ -16,7 +15,7 @@ class Navigation extends Component
      */
     public function __construct()
     {
-        $this->author = User::where('email', 'noemie.vincent1@student.hepl.be')->first();
+        $this->author = User::where('email','noemie.vincent1@student.hepl.be')->first();
     }
 
     /**

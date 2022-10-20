@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use App\Models\Category;
-use App\Models\Comment;
 use App\Models\Post;
-use App\Models\User;
-use App\View\Components\Aside\Categories;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -22,20 +18,9 @@ class PostController extends Controller
      *
      * @return Application|Factory|View
      */
-
     public function index(): View|Factory|Application
     {
-        $posts = Post::with('comments', 'categories', 'user');
-
-        if (isset($_GET['order-by']) && $_GET['order-by'] === 'oldest') {
-            $posts = $posts->oldest();
-        } else {
-            $posts = $posts->latest();
-        }
-
-
-        $posts = $posts->paginate(4);
-
+        $posts = Post::latest('published_at')->paginate(10);
         return view('posts.index', compact('posts'));
     }
 
@@ -44,96 +29,74 @@ class PostController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create(): View|Factory|Application
+    public function create()
     {
-        $categories = Category::all();
-        return view('posts.create', compact('categories'));
+        return view('posts.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return Application|Factory|View
+     * @param  StorePostRequest  $request
+     * @return RedirectResponse
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
-        $post_data = $request->safe()->only(['title', 'excerpt', 'body']);
-        $post_data['slug'] = \Str::slug($post_data['title']);
-        $post_data['user_id'] = auth()->user()->id;
+        $validatedPostData = $request->safe()->only('title', 'body', 'excerpt');
+        $validatedPostData['slug'] = Str::slug($validatedPostData['title']);
+        $validatedPostData['user_id'] = auth()->id();
+        $validatedCategoryId = $request->safe()->only('category_id');
 
-        $category_id = $request->safe()->only('category_id');
-
-        $post = Post::create($post_data);
-
-        foreach ($category_id as $id) {
+        $post = Post::create($validatedPostData);
+        foreach ($validatedCategoryId as $id) {
             $post->categories()->attach($id);
         }
 
-        return redirect('/post/' . $post->slug);
+        return redirect()->route('single-post', [$post]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  Post  $post
      * @return Application|Factory|View
      */
-    public function show(Post $post): Application|Factory|View
+    public function show(Post $post)
     {
-        $comments = Comment::with('post', 'user')->where('post_id', $post->id)->get();
-        return view('posts.single', compact('post', 'comments'));
+        return view('posts.show', compact('post'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     * @return Application|Factory|View
+     * @param  int  $id
+     * @return Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        $post = Post::find($post->id);
-        $categories = Category::all();
-        return view('posts.edit', compact('post', 'categories'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param  Request  $request
+     * @param  int  $id
+     * @return Response
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, $id)
     {
-        $post = Post::find($post->id);
-
-        $post_data = $request->safe()->only(['title', 'excerpt', 'body']);
-        $post_data['slug'] = \Str::slug($post_data['title']);
-        $post_data['user_id'] = auth()->user()->id;
-
-        $category_id = $request->safe()->only('category_id');
-
-        $post->update($post_data);
-
-        foreach ($category_id as $id) {
-            $post->categories()->attach($id);
-        }
-
-        return redirect('/post/' . $post->slug);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param  int  $id
+     * @return Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        $post = Post::find($post->id);
-        $post->delete();
-        return redirect('/posts');
+        //
     }
 }

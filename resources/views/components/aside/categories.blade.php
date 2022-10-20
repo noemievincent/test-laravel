@@ -1,18 +1,23 @@
-<section class="px-8 mt-10">
-    <h3 class="mb-4 text-xl font-bold text-gray-700">Categories</h3>
-    <div class="flex flex-col max-w-sm px-4 py-6 mx-auto bg-white rounded-lg shadow-md">
+@props(['title'])
+
+<x-aside.list-container>
+    <x-slot:title>{{ $title }}</x-slot:title>
+    @if($categories->count())
         <ul>
-            @foreach($categories as $category)
-                <li class="mb-3"><a href="/categories/{{$category->slug}}/posts"
-                                    class="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline">
-                        {{ucwords($category->name)}}</a> contains {{$category->posts_count}} posts
+            @foreach ($categories as $category)
+                <li class="mb-4">
+                    <a href="/categories/{{ $category->slug }}"
+                       class="font-bold text-blue-700 hover:text-gray-600 hover:underline">
+                        {{ ucwords($category->name) }}</a> contains <em>{{ $category->posts_count }}</em> posts
                 </li>
             @endforeach
+            @if($uncategorized)
+                <li class="text-right">{{ $uncategorized }} posts are <a href="/categories/uncategorized"
+                                                                         class="font-bold text-blue-700 hover:text-gray-600 hover:underline">
+                        uncategorized</a></li>
+            @endif
         </ul>
-        @if($categories_count > $categories->count())
-            <div class="text-right"><a href="?aside-expanded=categories" class="text-blue-500 hover:underline">See all {{ $categories_count }} categories</a></div>
-        @else
-            <div class="text-right"><a href="?" class="text-blue-500 hover:underline">Reduce</a></div>
-        @endif
-    </div>
-</section>
+    @else
+        <p>No category yet!</p>
+    @endif
+</x-aside.list-container>

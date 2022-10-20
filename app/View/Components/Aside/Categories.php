@@ -2,15 +2,15 @@
 
 namespace App\View\Components\Aside;
 
+use App\Models\Post;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\View\Component;
+use Illuminate\Database\Eloquent\Collection;
 
 class Categories extends Component
 {
     public Collection $categories;
-    public int $categories_count;
+    public int $uncategorized;
 
     /**
      * Create a new component instance.
@@ -19,13 +19,8 @@ class Categories extends Component
      */
     public function __construct()
     {
-        $query = Category::withCount('posts');
-        $this->categories_count = Category::count();
-        if (request()->has('aside-expanded') && request('aside-expanded') === 'categories') {
-            $this->categories = $query->get();
-        } else {
-            $this->categories = $query->take(5)->get();
-        }
+        $this->categories = Category::withCount('posts')->get();
+        $this->uncategorized = Post::doesntHave('categories')->count();
     }
 
     /**

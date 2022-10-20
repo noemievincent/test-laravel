@@ -3,12 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Faker\Factory;
-use Faker\Generator;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -17,19 +13,15 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $faker = Factory::create();
-        for ($i = 0; $i < 10; $i++) {
-            $name = $i > 0 ? strtolower($faker->name()) : 'Noémie Vincent';
-            $slug = Str::slug($name);
-            $avatar = $faker->imageUrl(128, 128, true, 'people', $name);
-            $email = $i > 0 ? $faker->unique()->safeEmail : 'noemie.vincent1@student.hepl.be';
-            $is_admin = $i > 0 ? false : true;
-            $password = bcrypt('change_this');
-            User::create(
-                    compact('name', 'slug', 'avatar', 'email', 'is_admin', 'password')
-                );
-        }
+        $name = 'Noémie Vincent';
+        User::factory()->create([
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'email' => 'noemie.vincent1@student.hepl.be',
+            'is_admin' => true,
+        ]);
+        User::factory()->count(9)->create();
     }
 }

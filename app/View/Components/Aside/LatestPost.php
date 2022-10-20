@@ -7,8 +7,7 @@ use Illuminate\View\Component;
 
 class LatestPost extends Component
 {
-    public Post $post;
-
+    public $post;
     /**
      * Create a new component instance.
      *

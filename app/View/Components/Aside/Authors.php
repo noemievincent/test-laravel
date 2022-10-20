@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class Authors extends Component
 {
+
     public Collection $authors;
     public int $authors_count;
 

@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\RegisteredUserController;
+use App\Models\Post;
+use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\UncategorizedPostsController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\PostsByAuthorsController;
-use App\Http\Controllers\PostsByCategoriesController;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostsFromAuthorController;
+use App\Http\Controllers\PostsFromCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,39 +20,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Index
+// Various posts indexes
+Route::get('/', [PostController::class, 'index']);
 Route::get('/posts', [PostController::class, 'index']);
-Route::get('/authors/{author:slug}', PostsByAuthorsController::class);
-Route::get('/categories/{category:slug}/posts', PostsByCategoriesController::class);
+Route::get('/categories/uncategorized', UncategorizedPostsController::class);
+Route::get('/categories/{category:slug}', PostsFromCategoryController::class);
+Route::get('/authors/{author:slug}', PostsFromAuthorController::class);
 
-// Create
-Route::post('/posts', [PostController::class, 'store'])->middleware('auth', 'can:create, App\Models\Post');
-Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth', 'can:create, App\Models\Post');
-
-// Show
-Route::get('/post/{post:slug}', [PostController::class, 'show']);
-
-// Edit
-Route::post('/post/{post:slug}', [PostController::class, 'update'])->middleware('auth')->can('update', 'post');
-Route::get('/post/{post:slug}/edit', [PostController::class, 'edit'])->middleware('auth')->can('update', 'post');
-
-//Delete
-Route::post('/post/{post:slug}/delete', [PostController::class, 'destroy'])->middleware('auth')->can('delete', 'post');
-
-// Comment
-Route::post('/post/{post:slug}/comment', [CommentController::class, 'store'])->middleware('auth');
-Route::post('/post/{post:slug}/comment/{comment}', [CommentController::class, 'update'])->middleware('auth');
-
-Route::post('/post/{post:slug}/comment/{comment}/delete', [CommentController::class, 'destroy']);
+// Single post
+Route::post('/posts', [PostController::class, 'store'])->middleware('auth')->can('create', Post::class);
+Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth')->can('create',
+    Post::class);
+Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('single-post');
 
 // Auth
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login')->middleware('guest');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth');
 
-Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest');
-Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
+// Comments
+Route::post('/comments/post/{post:id}', [CommentsController::class, 'store'])->middleware('auth');
+
+
+
+
+
+
+
+
+/*
+Route::get('posts/{id}', function ($id) {
+    return DB::table('posts')
+        ->leftJoin('comments', 'posts.id', '=', 'comments.post_id')
+        ->select('posts.id as pid','posts.body as pbody', 'comments.body as cbody')
+        ->where('posts.id', $id)
+        ->get();
+});
+*/

@@ -3,17 +3,16 @@
 namespace App\Models;
 
 use App\Events\PostCreated;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Post
  *
- * @method static paginate()
  * @property int $id
  * @property string $title
  * @property string $slug
@@ -40,28 +39,29 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
- * @property-read int|null $categories_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
+ * @property-read int|null $categories_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\PostFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Query\Builder|Post onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Post withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Post withoutTrashed()
  */
-
 class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'title',
-        'excerpt',
-        'body',
-        'slug',
-        'user_id',
-    ];
+    protected $with = ['user', 'categories'];
+    protected $withCount = ['comments'];
+    protected $guarded = [];
+    protected $dates = ['published_at'];
+
+    public function getRouteKey()
+    {
+        return $this->slug;
+    }
 
     public function comments(): HasMany
     {
@@ -78,7 +78,7 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-//    protected $dispatchesEvents = [
-//        'created' => PostCreated::class,
-//    ];
+    protected $dispatchesEvents = [
+        'created' => PostCreated::class,
+    ];
 }
