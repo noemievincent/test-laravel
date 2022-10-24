@@ -15,8 +15,10 @@
               content="ie=edge">
         <title>{{ config('app.name') }}</title>
         @vite('resources/css/app.css')
+        @livewireStyles
     </head>
     <body class="bg-gray-200 font-serif">
         {{ $slot }}
+    @livewireScripts
     </body>
 </html>
