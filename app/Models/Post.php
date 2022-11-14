@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 /**
  * App\Models\Post
@@ -51,12 +52,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Post extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $with = ['user', 'categories'];
     protected $withCount = ['comments'];
     protected $guarded = [];
     protected $dates = ['published_at'];
+    protected $dispatchesEvents = [
+        'created' => PostCreated::class,
+    ];
 
     public function getRouteKey()
     {
@@ -78,7 +82,17 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected $dispatchesEvents = [
-        'created' => PostCreated::class,
-    ];
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        unset($array['created_at'], $array['updated_at'], $array['thumbnail']);
+
+        return $array;
+    }
 }

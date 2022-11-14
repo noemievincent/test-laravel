@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchController;
 use App\Models\Post;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\UncategorizedPostsController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsFromAuthorController;
 use App\Http\Controllers\PostsFromCategoryController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,8 @@ Route::get('/posts', [PostController::class, 'index']);
 Route::get('/categories/uncategorized', UncategorizedPostsController::class);
 Route::get('/categories/{category:slug}', PostsFromCategoryController::class);
 Route::get('/authors/{author:slug}', PostsFromAuthorController::class);
+
+Route::get('/search', SearchController::class);
 
 // Single post
 Route::post('/posts', [PostController::class, 'store'])->middleware('auth')->can('create', Post::class);
