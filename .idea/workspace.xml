@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ead557a6-266a-4b5e-b7a6-9b745c758771" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/search.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/blade.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/blade.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/blog-laravel.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/blog-laravel.iml" afterDir="false" />
+    <list default="true" id="ead557a6-266a-4b5e-b7a6-9b745c758771" name="Changes" comment="test commit">
+      <change beforePath="$PROJECT_DIR$/.idea/laravel-idea-personal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/laravel-idea-personal.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_09_24_105417_create_posts_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_09_24_105417_create_posts_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/commons/navigation.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/commons/navigation.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/front-main-layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/front-main-layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/create.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,22 +175,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/noemie/Sites/test-laravel&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/PhpStorm.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/noemie/HEPL/PROJETS WEB/demos/test-laravel",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -230,7 +227,50 @@
       <workItem from="1668006513788" duration="873000" />
       <workItem from="1668010652177" duration="1111000" />
       <workItem from="1668422294402" duration="723000" />
-      <workItem from="1668425416338" duration="6508000" />
+      <workItem from="1668425416338" duration="12324000" />
+      <workItem from="1668522558458" duration="10000" />
+      <workItem from="1668673324938" duration="1536000" />
+      <workItem from="1668691756042" duration="6148000" />
+      <workItem from="1668771299231" duration="6000" />
+      <workItem from="1668935338602" duration="560000" />
+      <workItem from="1668938125957" duration="2072000" />
+      <workItem from="1668944425880" duration="717000" />
+      <workItem from="1669017362411" duration="1238000" />
+      <workItem from="1669032740663" duration="555000" />
+      <workItem from="1669034386092" duration="5000" />
+      <workItem from="1669036456189" duration="3105000" />
+      <workItem from="1669134516760" duration="599000" />
+      <workItem from="1669190595895" duration="101000" />
+      <workItem from="1669191124672" duration="4876000" />
+      <workItem from="1669231075898" duration="4000" />
+      <workItem from="1669275505079" duration="425000" />
+      <workItem from="1669278101323" duration="598000" />
+      <workItem from="1669731382490" duration="727000" />
+      <workItem from="1669795932184" duration="123000" />
+      <workItem from="1669801761463" duration="1220000" />
+      <workItem from="1669812071137" duration="619000" />
+      <workItem from="1670412146275" duration="846000" />
+      <workItem from="1670831985762" duration="46000" />
+      <workItem from="1670833712386" duration="521000" />
+      <workItem from="1670836379527" duration="53000" />
+      <workItem from="1670838723539" duration="652000" />
+      <workItem from="1671618755589" duration="143000" />
+      <workItem from="1671625530493" duration="2708000" />
+      <workItem from="1671696608822" duration="5000" />
+      <workItem from="1672061835583" duration="443000" />
+      <workItem from="1672215232904" duration="48000" />
+      <workItem from="1672215567846" duration="825000" />
+      <workItem from="1672232270038" duration="598000" />
+      <workItem from="1672402268430" duration="5000" />
+      <workItem from="1672412533345" duration="17000" />
+      <workItem from="1672412669442" duration="652000" />
+      <workItem from="1672672072242" duration="653000" />
+      <workItem from="1672735685467" duration="2516000" />
+      <workItem from="1672760662522" duration="2000" />
+      <workItem from="1672768252226" duration="618000" />
+      <workItem from="1672772768862" duration="2498000" />
+      <workItem from="1672823786028" duration="6698000" />
+      <workItem from="1673433397454" duration="300000" />
     </task>
     <servers />
   </component>

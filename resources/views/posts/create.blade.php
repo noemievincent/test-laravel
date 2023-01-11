@@ -8,8 +8,7 @@
                         <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Create Post</h1>
                     </div>
                     <div class="mt-6">
-                        <form>
-                              action="/posts"
+                        <form action="/posts"
                               method="post">
                             @csrf
                             <label for="title"
@@ -18,6 +17,7 @@
                             <input id="title"
                                    type="text"
                                    name="title"
+                                   placeholder="Titre du post"
                                    value="{{old('title')}}"
                                    class="p-4 w-full rounded-md border-gray-300 @error('title') border-red-600  accent-red-600 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 

@@ -5,6 +5,8 @@
       <map>
         <entry key="createMailable.markdown" value="1" />
         <entry key="createMailable.shouldQueue" value="1" />
+        <entry key="internal.bladeComponentMergeClassAttribute" value="" />
+        <entry key="internal.bladeComponentOpenFile" value="1" />
       </map>
     </option>
   </component>

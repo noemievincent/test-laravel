@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->text('excerpt');
             $table->string('thumbnail')->nullable();
             $table->timestamps();
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->useCurrent();
             $table->softDeletes();
         });
     }

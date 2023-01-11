@@ -59,7 +59,7 @@ class Post extends Model
     protected $guarded = [];
     protected $dates = ['published_at'];
     protected $dispatchesEvents = [
-        'created' => PostCreated::class,
+//        'created' => PostCreated::class,
     ];
 
     public function getRouteKey()
@@ -91,7 +91,7 @@ class Post extends Model
     {
         $array = $this->toArray();
 
-        unset($array['created_at'], $array['updated_at'], $array['thumbnail']);
+        unset($array['created_at'], $array['updated_at'], $array['thumbnail'], $array['body']);
 
         return $array;
     }
